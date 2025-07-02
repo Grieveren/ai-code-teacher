@@ -1,0 +1,31 @@
+{
+  "name": "ai-code-teacher",
+  "version": "1.0.0",
+  "description": "AI-powered coding education platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm run install:server && npm run install:client",
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:client\"",
+    "start": "npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm start",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "typecheck": "npm run typecheck:server && npm run typecheck:client",
+    "typecheck:server": "cd server && npm run typecheck",
+    "typecheck:client": "cd client && npm run typecheck",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
