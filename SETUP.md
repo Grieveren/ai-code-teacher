@@ -117,5 +117,5 @@ teacher-app/
 
 - **Port already in use:** Change ports in `vite.config.ts` and `server/.env`
 - **Database connection:** Ensure PostgreSQL is running and credentials are correct
-- **AI features not working:** Verify your Claude API key is valid
+- **AI features not working:** Verify your OpenAI API key is valid
 - **TypeScript errors:** Run `npm run typecheck` in both directories

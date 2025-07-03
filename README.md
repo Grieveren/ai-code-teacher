@@ -6,9 +6,9 @@
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)
 ![React](https://img.shields.io/badge/React-18.2-61dafb.svg)
-![Claude AI](https://img.shields.io/badge/Claude-AI-orange.svg)
+![OpenAI](https://img.shields.io/badge/OpenAI-gpt--4o--mini-green.svg)
 
-An intelligent coding education platform powered by Claude AI that provides personalized, real-time programming assistance and adaptive learning experiences.
+An intelligent coding education platform powered by OpenAI that provides personalized, real-time programming assistance and adaptive learning experiences.
 
 [Features](#features) • [Quick Start](#quick-start) • [Demo](#demo) • [Documentation](#documentation) • [Contributing](#contributing)
 
@@ -201,7 +201,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Claude](https://www.anthropic.com/claude) by Anthropic for AI capabilities
+- [OpenAI](https://openai.com) for AI capabilities
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/) for the code editor
 - All contributors and supporters of this project
 

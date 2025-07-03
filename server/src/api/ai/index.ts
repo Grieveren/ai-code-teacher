@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { aiRateLimiter } from '../../middleware/rateLimiter';
+import OpenAIService from '../../services/openai/openaiService';
 
 const router = Router();
 
@@ -10,12 +11,8 @@ router.use(aiRateLimiter);
 router.post('/explain', async (req, res, next) => {
   try {
     const { code, language } = req.body;
-    // TODO: Implement Claude API integration
-    res.json({
-      explanation: 'Code explanation will be implemented here',
-      code,
-      language,
-    });
+    const result = await OpenAIService.explainCode(code, language);
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -25,12 +22,8 @@ router.post('/explain', async (req, res, next) => {
 router.post('/debug', async (req, res, next) => {
   try {
     const { code, error, language } = req.body;
-    // TODO: Implement debugging assistance
-    res.json({
-      suggestion: 'Debug assistance will be implemented here',
-      code,
-      error,
-    });
+    const result = await OpenAIService.debugCode(code, error, language);
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -40,11 +33,10 @@ router.post('/debug', async (req, res, next) => {
 router.post('/hint', async (req, res, next) => {
   try {
     const { exerciseId, currentCode, attemptCount } = req.body;
-    // TODO: Implement hint generation
-    res.json({
-      hint: 'Hint generation will be implemented here',
-      level: attemptCount,
-    });
+    // In a real app, you'd fetch exercise context from a database using exerciseId
+    const exerciseContext = "A simple function to add two numbers.";
+    const result = await OpenAIService.generateHint(exerciseContext, currentCode, attemptCount);
+    res.json({ hint: result, level: attemptCount });
   } catch (error) {
     next(error);
   }
@@ -54,11 +46,8 @@ router.post('/hint', async (req, res, next) => {
 router.post('/review', async (req, res, next) => {
   try {
     const { code, language, context } = req.body;
-    // TODO: Implement code review
-    res.json({
-      review: 'Code review will be implemented here',
-      suggestions: [],
-    });
+    const result = await OpenAIService.reviewCode(code, language, context);
+    res.json(result);
   } catch (error) {
     next(error);
   }
