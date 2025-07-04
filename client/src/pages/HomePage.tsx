@@ -6,7 +6,7 @@ const HomePage = () => {
     {
       icon: '🤖',
       title: 'AI-Powered Learning',
-      description: 'Get personalized explanations and real-time help from Claude AI',
+      description: 'Get personalized explanations and real-time help from OpenAI',
     },
     {
       icon: '💻',

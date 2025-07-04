@@ -4,7 +4,7 @@
 
 - Node.js 18+ and npm
 - PostgreSQL database
-- Claude API key from Anthropic
+ - OpenAI API key from OpenAI
 
 ## Quick Start
 
@@ -28,7 +28,7 @@
 
    Edit `server/.env` and add:
    - Your PostgreSQL connection string
-   - Your Claude API key
+    - Your OpenAI API key
    - A secure JWT secret
 
 3. **Set up the database:**
@@ -76,7 +76,7 @@ teacher-app/
 │   ├── src/
 │   │   ├── api/         # API routes
 │   │   ├── services/    # Business logic
-│   │   │   └── claude/  # AI integration
+│   │   │   └── openai/  # AI integration
 │   │   ├── middleware/  # Express middleware
 │   │   └── utils/       # Utilities
 │   └── package.json
@@ -94,7 +94,7 @@ teacher-app/
 
 2. **Backend:**
    - Express server with TypeScript
-   - Claude API integration
+    - OpenAI API integration
    - Rate limiting for AI endpoints
    - Structured API routes
 
