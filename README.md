@@ -17,7 +17,7 @@ An intelligent coding education platform powered by OpenAI that provides persona
 ## ✨ Features
 
 - 🤖 **AI-Powered Teaching Assistant**
-  - Real-time code explanations with Claude AI
+ - Real-time code explanations with OpenAI
   - Intelligent debugging assistance
   - Context-aware hint generation
   - Personalized code reviews
@@ -45,7 +45,7 @@ An intelligent coding education platform powered by OpenAI that provides persona
 ### Prerequisites
 
 - Node.js 18+ and npm
-- Claude API key from [Anthropic](https://console.anthropic.com/)
+ - OpenAI API key from [OpenAI](https://platform.openai.com/)
 - PostgreSQL (optional, for full features)
 
 ### Installation
@@ -68,10 +68,10 @@ An intelligent coding education platform powered by OpenAI that provides persona
    cp client/.env.example client/.env
    ```
    
-   Edit `server/.env` and add your Claude API key:
-   ```env
-   ANTHROPIC_API_KEY=your-claude-api-key-here
-   ```
+    Edit `server/.env` and add your OpenAI API key:
+    ```env
+    OPENAI_API_KEY=your-openai-api-key
+    ```
 
 4. **Start the application**
    ```bash
@@ -117,7 +117,7 @@ ai-code-teacher/
 │   ├── src/
 │   │   ├── api/           # REST API endpoints
 │   │   ├── services/      # Business logic
-│   │   │   └── claude/    # AI integration
+│   │   │   └── openai/    # AI integration
 │   │   └── middleware/    # Express middleware
 │   └── package.json
 └── README.md
@@ -145,7 +145,7 @@ ai-code-teacher/
 - **Node.js** - Runtime
 - **Express** - Web framework
 - **TypeScript** - Type safety
-- **Claude AI API** - AI integration
+ - **OpenAI API** - AI integration
 - **PostgreSQL** - Database
 - **JWT** - Authentication
 - **Winston** - Logging
@@ -170,8 +170,8 @@ DATABASE_URL=postgresql://user:password@localhost:5432/teacher_app
 # Authentication
 JWT_SECRET=your-secret-key
 
-# Claude AI
-ANTHROPIC_API_KEY=your-claude-api-key
+# OpenAI
+OPENAI_API_KEY=your-openai-api-key
 
 # Rate Limiting
 AI_RATE_LIMIT_MAX_REQUESTS=10

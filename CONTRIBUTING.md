@@ -130,7 +130,7 @@ ai-code-teacher/
 
 ## Adding New Features
 
-1. **AI Features**: New AI features should be added to `server/src/services/claude/`
+1. **AI Features**: New AI features should be added to `server/src/services/openai/`
 2. **API Endpoints**: Add new routes to `server/src/api/`
 3. **UI Components**: Add new components to `client/src/components/`
 4. **Pages**: Add new pages to `client/src/pages/`
