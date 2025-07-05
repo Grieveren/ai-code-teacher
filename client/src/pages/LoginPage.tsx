@@ -1,7 +1,35 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { useAuthStore } from '../store/authStore';
+import { LoginCredentials } from '../types/auth';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginCredentials>();
+
+  const onSubmit = async (data: LoginCredentials) => {
+    setIsLoading(true);
+    try {
+      await login(data);
+      toast.success('Welcome back!');
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || 'Login failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div
@@ -21,7 +49,7 @@ const LoginPage = () => {
           <p className="text-gray-400">Login to continue your learning journey</p>
         </div>
 
-        <form className="glass-morphism p-8 rounded-xl space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="glass-morphism p-8 rounded-xl space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
               Email
@@ -29,9 +57,19 @@ const LoginPage = () => {
             <input
               type="email"
               id="email"
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="you@example.com"
             />
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+            )}
           </div>
 
           <div>
@@ -41,26 +79,23 @@ const LoginPage = () => {
             <input
               type="password"
               id="password"
+              {...register('password', {
+                required: 'Password is required',
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="••••••••"
             />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <label className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              <span className="text-sm">Remember me</span>
-            </label>
-            <a href="#" className="text-sm text-blue-400 hover:text-blue-300">
-              Forgot password?
-            </a>
+            {errors.password && (
+              <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition-colors"
+            disabled={isLoading}
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors"
           >
-            Login
+            {isLoading ? 'Signing In...' : 'Login'}
           </button>
         </form>
 

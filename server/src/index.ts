@@ -5,6 +5,7 @@ import compression from 'compression';
 import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
+import database from './db/connection';
 import apiRoutes from './api';
 
 dotenv.config();
@@ -38,6 +39,13 @@ app.use('/api', apiRoutes);
 app.use(errorHandler);
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   logger.info(`Server running on port ${PORT}`);
+  
+  // Test database connection
+  const dbConnected = await database.testConnection();
+  if (!dbConnected) {
+    logger.error('Failed to connect to database');
+    process.exit(1);
+  }
 });

@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { aiRateLimiter } from '../../middleware/rateLimiter';
+import { optionalAuth } from '../../middleware/auth';
 import OpenAIService from '../../services/openai/openaiService';
 
 const router = Router();
 
-// Apply AI-specific rate limiting
+// Apply AI-specific rate limiting and optional authentication
 router.use(aiRateLimiter);
+router.use(optionalAuth);
 
 // Explain code endpoint
 router.post('/explain', async (req, res, next) => {

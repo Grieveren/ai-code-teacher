@@ -1,7 +1,42 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { useAuthStore } from '../store/authStore';
+import { RegisterData } from '../types/auth';
+import toast from 'react-hot-toast';
+
+interface RegisterFormData extends RegisterData {
+  confirmPassword: string;
+}
 
 const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const register = useAuthStore((state) => state.register);
+  
+  const {
+    register: registerField,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<RegisterFormData>();
+
+  const password = watch('password');
+
+  const onSubmit = async (data: RegisterFormData) => {
+    setIsLoading(true);
+    try {
+      const { confirmPassword, ...registerData } = data;
+      await register(registerData);
+      toast.success('Account created successfully! Please login.');
+      navigate('/login');
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div
@@ -21,7 +56,7 @@ const RegisterPage = () => {
           <p className="text-gray-400">Create an account to begin learning</p>
         </div>
 
-        <form className="glass-morphism p-8 rounded-xl space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="glass-morphism p-8 rounded-xl space-y-6">
           <div>
             <label htmlFor="username" className="block text-sm font-medium mb-2">
               Username
@@ -29,9 +64,19 @@ const RegisterPage = () => {
             <input
               type="text"
               id="username"
+              {...registerField('username', {
+                required: 'Username is required',
+                minLength: {
+                  value: 3,
+                  message: 'Username must be at least 3 characters',
+                },
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="johndoe"
             />
+            {errors.username && (
+              <p className="text-red-400 text-sm mt-1">{errors.username.message}</p>
+            )}
           </div>
 
           <div>
@@ -41,9 +86,19 @@ const RegisterPage = () => {
             <input
               type="email"
               id="email"
+              {...registerField('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address',
+                },
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="you@example.com"
             />
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+            )}
           </div>
 
           <div>
@@ -53,9 +108,19 @@ const RegisterPage = () => {
             <input
               type="password"
               id="password"
+              {...registerField('password', {
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Password must be at least 6 characters',
+                },
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="••••••••"
             />
+            {errors.password && (
+              <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+            )}
           </div>
 
           <div>
@@ -65,26 +130,24 @@ const RegisterPage = () => {
             <input
               type="password"
               id="confirmPassword"
+              {...registerField('confirmPassword', {
+                required: 'Please confirm your password',
+                validate: (value) => value === password || 'Passwords do not match',
+              })}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
               placeholder="••••••••"
             />
-          </div>
-
-          <div className="flex items-center">
-            <input type="checkbox" id="terms" className="mr-2" />
-            <label htmlFor="terms" className="text-sm">
-              I agree to the{' '}
-              <a href="#" className="text-blue-400 hover:text-blue-300">
-                Terms and Conditions
-              </a>
-            </label>
+            {errors.confirmPassword && (
+              <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition-colors"
+            disabled={isLoading}
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-colors"
           >
-            Create Account
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
