@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthStore>()(
       login: async (credentials: LoginCredentials) => {
         set({ isLoading: true });
         try {
-          const { user, token } = await authService.login(credentials);
+          const { token } = await authService.login(credentials);
           
           // Get full user data with progress
           const userWithProgress = await authService.getCurrentUser();

@@ -3,6 +3,7 @@ import aiRoutes from './ai';
 import authRoutes from './auth';
 import lessonsRoutes from './lessons';
 import progressRoutes from './progress';
+import execRoutes from './exec';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.get('/', (req, res) => {
       auth: '/api/auth',
       lessons: '/api/lessons',
       progress: '/api/progress',
+      exec: '/api/exec',
     },
   });
 });
@@ -25,5 +27,6 @@ router.use('/ai', aiRoutes);
 router.use('/auth', authRoutes);
 router.use('/lessons', lessonsRoutes);
 router.use('/progress', progressRoutes);
+router.use('/exec', execRoutes);
 
 export default router;

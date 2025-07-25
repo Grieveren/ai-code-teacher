@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import lessonService from '../services/lessonService'
+import { Lesson } from '../types/lesson'
 
 const LearnPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -11,48 +13,13 @@ const LearnPage = () => {
     { id: 'advanced', label: 'Advanced' },
   ]
 
-  const courses = [
-    {
-      id: 1,
-      title: 'Introduction to Programming',
-      description: 'Learn the fundamentals of programming with JavaScript',
-      level: 'beginner',
-      duration: '4 weeks',
-      lessons: 20,
-      icon: '🚀',
-    },
-    {
-      id: 2,
-      title: 'Web Development Basics',
-      description: 'Build your first website with HTML, CSS, and JavaScript',
-      level: 'beginner',
-      duration: '6 weeks',
-      lessons: 30,
-      icon: '🌐',
-    },
-    {
-      id: 3,
-      title: 'Python for Data Science',
-      description: 'Master Python for data analysis and visualization',
-      level: 'intermediate',
-      duration: '8 weeks',
-      lessons: 40,
-      icon: '📊',
-    },
-    {
-      id: 4,
-      title: 'React Development',
-      description: 'Build modern web applications with React',
-      level: 'intermediate',
-      duration: '6 weeks',
-      lessons: 35,
-      icon: '⚛️',
-    },
-  ]
+  const [courses, setCourses] = useState<Lesson[]>([])
 
-  const filteredCourses = selectedCategory === 'all' 
-    ? courses 
-    : courses.filter(course => course.level === selectedCategory)
+  useEffect(() => {
+    lessonService.getAllLessons().then(setCourses).catch(console.error)
+  }, [])
+
+  const filteredCourses = courses
 
   return (
     <div>
@@ -91,15 +58,10 @@ const LearnPage = () => {
             transition={{ duration: 0.3, delay: index * 0.1 }}
             whileHover={{ y: -5 }}
           >
-            <div className="text-4xl mb-4">{course.icon}</div>
             <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
             <p className="text-gray-400 mb-4">{course.description}</p>
-            
-            <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-              <span className="capitalize">{course.level}</span>
-              <span>{course.duration}</span>
-              <span>{course.lessons} lessons</span>
-            </div>
+
+            <div className="text-sm text-gray-500 mb-4">Created at {new Date(course.createdAt).toLocaleDateString()}</div>
 
             <button className="w-full py-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
               Start Learning
