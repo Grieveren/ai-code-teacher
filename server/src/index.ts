@@ -3,15 +3,18 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
 import database from './db/connection';
 import apiRoutes from './api';
+import { setupChatServer } from './websocket/chatServer';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const httpServer = createServer(app);
 
 // Middleware
 app.use(helmet());
@@ -39,8 +42,11 @@ app.use('/api', apiRoutes);
 app.use(errorHandler);
 
 // Start server
-app.listen(PORT, async () => {
+httpServer.listen(PORT, async () => {
   logger.info(`Server running on port ${PORT}`);
+
+  // Setup WebSocket chat
+  setupChatServer(httpServer);
   
   // Test database connection
   const dbConnected = await database.testConnection();

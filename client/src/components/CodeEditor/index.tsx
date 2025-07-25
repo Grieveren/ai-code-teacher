@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import Editor, { OnMount, Monaco } from '@monaco-editor/react';
+import { useRef } from 'react';
+import Editor, { OnMount } from '@monaco-editor/react';
 import { motion } from 'framer-motion';
 import { useExplainCode, useDebugCode } from '@/hooks/useAI';
 

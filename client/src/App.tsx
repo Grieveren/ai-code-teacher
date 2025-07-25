@@ -9,6 +9,7 @@ import PracticePage from './pages/PracticePage';
 import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ChatPage from './pages/ChatPage';
 
 function App() {
   const loadUser = useAuthStore((state) => state.loadUser);
@@ -36,6 +37,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="learn" element={<LearnPage />} />
           <Route path="practice" element={<PracticePage />} />
+          <Route path="chat" element={<ChatPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />

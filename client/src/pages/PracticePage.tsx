@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import CodeEditor from '@/components/CodeEditor'
 import { motion } from 'framer-motion'
+import execService from '../services/execService'
 
 const PracticePage = () => {
   const [code, setCode] = useState(`function fibonacci(n) {
@@ -11,13 +12,16 @@ const PracticePage = () => {
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
 
-  const handleRunCode = () => {
-    // Simulate running code (in production, this would call a code execution API)
+  const handleRunCode = async () => {
     try {
       setError('');
-      // Simple simulation - in reality, this would be sandboxed execution
-      const result = `Code execution simulation:\nYour function has been defined. Try calling fibonacci(5) to test it!`;
-      setOutput(result);
+      const res = await execService.runCode('javascript', code);
+      if (res.error) {
+        setError(res.error);
+        setOutput('');
+      } else {
+        setOutput(res.output);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setOutput('');

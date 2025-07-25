@@ -141,6 +141,20 @@ class OpenAIService {
     }
   }
 
+  async chat(messages: { role: 'user' | 'assistant'; content: string }[]): Promise<string> {
+    try {
+      const response = await this.client.chat.completions.create({
+        model: 'gpt-4o-mini',
+        max_tokens: 512,
+        messages,
+      });
+      return response.choices[0].message.content || '';
+    } catch (error) {
+      logger.error('OpenAI API error:', error);
+      throw new Error('Failed to chat');
+    }
+  }
+
   private extractConcepts(text: string): string[] {
     const concepts: string[] = [];
     const conceptPatterns = [
